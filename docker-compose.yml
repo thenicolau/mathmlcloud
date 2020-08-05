@@ -1,7 +1,7 @@
 version: '2'
 services:
   redis:
-    image: redis:2.8.21
+    image: redis:6.0.6
   mongo:
     image: mongo:2.6.11
   # Hopefully moving api to the bottom will ensure that mongo and redis start up :yn:
