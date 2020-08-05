@@ -1,4 +1,4 @@
-langugage: node_js
+langugage: minimal
 
 services:
   - docker
