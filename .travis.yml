@@ -1,6 +1,4 @@
-langugage: node_js
-node_js:
-  - lts/*
+langugage: minimal
 
 services:
   - docker
