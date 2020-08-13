@@ -22,6 +22,10 @@ cd yourProjectName
 # image
 docker tag mathmlcloud_api yourProjectName_api
 
+# (re-)build docker-compose after pulling repo
+docker-compose build
+
+# start docker-compose
 docker-compose up
 
 # Test to make sure it works:
