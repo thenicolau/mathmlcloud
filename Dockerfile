@@ -23,7 +23,7 @@ COPY . $APP_DIR
 RUN apt-get update && \
     apt-get install -y $BUILD_PACKAGES $RUNTIME_PACKAGES && \
     npm -y install && \
-    curl -O -L http://www.apache.org/dist/xmlgraphics/batik/binaries/batik-bin-1.10.zip && \
+    curl -O -L https://archive.apache.org/dist/xmlgraphics/batik/binaries/batik-bin-1.10.zip && \
     unzip batik-bin-1.10.zip && \
     mv batik-1.10 node_modules/mathjax-node/batik/ && \
     rm -rf batik* && \
