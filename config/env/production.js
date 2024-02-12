@@ -11,33 +11,23 @@
  */
 var fs = require('fs');
 module.exports = {
-  datastores: {
-     'productionMongodbServer': {
-		 url: process.env.MONGO_URL
-     }
-  },
-
-  models: {
-     datastore: 'productionMongodbServer'
-  },
-
   /***************************************************************************
    * Set the log level                 *
    ***************************************************************************/
 
   log: {
-    level: "warn"
+    level: "warn",
   },
 
   transport: {
     service: process.env.SMTP_PROVIDER,
     auth: {
-        user: process.env.SMTP_SASL_USER,
-        pass: process.env.SMTP_SASL_PASSWORD
-    }
+      user: process.env.SMTP_SASL_USER,
+      pass: process.env.SMTP_SASL_PASSWORD,
+    },
   },
 
   sockets: {
-    onlyAllowOrigins: ["http://app.mathmlcloud.org"]
-  }
+    onlyAllowOrigins: ["http://app.mathmlcloud.org"],
+  },
 };

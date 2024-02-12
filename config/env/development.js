@@ -11,21 +11,8 @@
  */
 
 module.exports = {
-
   /***************************************************************************
    * Set the default database connection for models in the development       *
    * environment (see config/connections.js and config/models.js )           *
    ***************************************************************************/
-  models: {
-     datastore: 'localMongodbServer'
-  },
-
-  transport: {
-    service: 'SendGrid',
-    auth: {
-        user: "TODO_username_property",
-        pass: "TODO_password_property"
-    }
-  }
-
 };

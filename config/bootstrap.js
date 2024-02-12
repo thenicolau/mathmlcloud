@@ -11,31 +11,16 @@
 
 module.exports.bootstrap = function(cb) {
 
-  sails.kue = require('kue'), sails.jobs = sails.kue.createQueue({
-    redis: {
-        host: process.env.REDIS_HOST,
-        port: process.env.REDIS_PORT
-      }
-    });
-  sails.kueServer = sails.kue.app.listen(3000);
-  QueueService.processJobs();
 
-  sails.on('lower', function(callback) {
-    sails.jobs.shutdown(0, '', function(callback2) {
-        sails.kueServer.close(function() {
-            callback2();
-            callback();
-        });
-    });
-  });
-
-  if (sails.config.environment != 'development') {
+  if (sails.config.environment != "development") {
     var express = require("express"),
-         app = express();
+      app = express();
 
-    app.get('*', function(req,res) {  
-        res.redirect('https://' + req.headers.host + req.url)
-    }).listen(80);  
+    app
+      .get("*", function (req, res) {
+        res.redirect("https://" + req.headers.host + req.url);
+      })
+      .listen(80);
   }
   // It's very important to trigger this callback method when you are finished
   // with the bootstrap!  (otherwise your server will never lift, since it's waiting on the bootstrap)

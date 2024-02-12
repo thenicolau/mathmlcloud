@@ -18,53 +18,11 @@
 
 
 module.exports.policies = {
-
   /***************************************************************************
-  *                                                                          *
-  * Default policy for all controllers and actions (`true` allows public     *
-  * access)                                                                  *
-  *                                                                          *
-  ***************************************************************************/
-
+   *                                                                          *
+   * Default policy for all controllers and actions (`true` allows public     *
+   * access)                                                                  *
+   *                                                                          *
+   ***************************************************************************/
   // '*': true,
-  
-  UserController: {
-    "*"	: "isAdmin",
-    "update": ["authenticate", "isAdmin"],
-    "signUp": true,
-    "create": true,
-    "sendForgotPassword": true,
-    "showChangePasswordForm": true,
-    "changePassword": true
-	},
-
-  AdminController: {
-    "*": ["authenticate", "isAdmin"]
-  },
-
-  EquationController: {
-    "myEquations": ["authenticate", "authenticated"],
-    "convert": "authenticate",
-    "update": "authenticate",
-    "*": true
-  },
-
-  Html5Controller: {
-    "myUploads": ["authenticate", "authenticated"],
-    "upload": "authenticate",
-    "update": ["authenticate", "authenticated"],
-    "*": true
-  },
-
-  FeedbackController: {
-    "myFeedback": ["authenticate", "authenticated"],
-    "create": "authenticate",
-    "*": true
-  },
-
-  AuthController: {
-    "loggedInUser": "authenticate",
-    "*": true
-  }
-
 };

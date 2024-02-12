@@ -1,16 +1,16 @@
-version: '2'
-services:
-  redis:
-    image: redis:6.0.6
-  mongo:
-    image: mongo:2.6.11
-  # Hopefully moving api to the bottom will ensure that mongo and redis start up :yn:
-  api:
-    build: .
-    ports:
-      - "1337:1337"
-      - "9999:9999"
-    links:
-      - redis
-      - mongo
-    restart: unless-stopped
+# version: '2'
+# services:
+#   redis:
+#     image: redis:6.0.6
+#   mongo:
+#     image: mongo:2.6.11
+#   # Hopefully moving api to the bottom will ensure that mongo and redis start up :yn:
+#   api:
+#     build: .
+#     ports:
+#       - "1337:1337"
+#       - "9999:9999"
+#     links:
+#       - redis
+#       - mongo
+#     restart: unless-stopped

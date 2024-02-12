@@ -6,8 +6,8 @@
  */
 var waterfall = require('async-waterfall');
 module.exports = {
-	
-	/** 
+
+	/**
 	* Convert to svg and get text description.
 	* @param req expected param: mathml/tex
 	* @param res returns json
@@ -25,27 +25,16 @@ module.exports = {
 		options.speakText = req.param('description');
 
 		//Do some basic checking on mathml input.
-		if (options.format == "MathML" && !(options.math.indexOf("<math") == 0)) 
+		if (options.format == "MathML" && !(options.math.indexOf("<math") == 0))
 			return res.badRequest({ errorCode: "23", message: "MathML must start with <math" });
 
 		//Create db record first so that we can make use of waterline's
 		//validation rules.
-		var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
-		Equation.create({
-		  math: options.math,
-		  mathType: options.format,
-		  submittedBy: req.user,
-		  ip_address: ip
-		}).exec(function(err, equation) {
-		  	if (err) {
-		  		console.log(err);
-			  	return res.badRequest(err);
-		    } 
-		    ConversionService.convertEquation(options, equation, req.protocol + '://' + req.headers.host, function(err, newEquation) {
+
+		    ConversionService.convertEquation(options, req.protocol + '://' + req.headers.host, function(err, newEquation) {
 		    	if (err) return res.serverError("Error converting equation.");
-		    	return res.json(newEquation);	
+		    	return res.json(newEquation);
 		    });
-		});
 	},
 
 	update: function(req, res) {
@@ -71,10 +60,10 @@ module.exports = {
 					case "png":
 						options.png = true;
 						break;
-					default: 
+					default:
 						//do nothing.
-						break;		
-				} 
+						break;
+				}
 			});
 			var params = {math: req.param("math")};
 			if (typeof req.user != "undefined") params.submittedBy = req.user.id;
@@ -82,7 +71,7 @@ module.exports = {
 			Equation.update({id: equation.id}, params).exec(function(err, equations) {
 				ConversionService.convertEquation(options, equations[0], req.headers.host, function(err, newEquation) {
 			    	if (err) return res.serverError("Error converting equation.");
-			    	return res.json(newEquation);	
+			    	return res.json(newEquation);
 			    });
 			});
 		});
@@ -116,7 +105,7 @@ module.exports = {
 				console.log(data.errors);
 				return res.badRequest(data.errors);
 			}
-			
+
 		});
 	},
 
@@ -147,7 +136,7 @@ module.exports = {
 				console.log(data.errors);
 				return res.badRequest(data.errors);
 			}
-			
+
 		});
 	},
 
@@ -162,7 +151,7 @@ module.exports = {
 				res.notFound({ errorCode: "30", message: "Equation not found: " + equationId });
 			} else {
 				if (req.wantsJSON) {
-					return res.json(equation); 
+					return res.json(equation);
 				} else {
                     if (equation.components.length > 0) {
                         return res.redirect("/component/" + equation.components[0].id);
@@ -177,7 +166,7 @@ module.exports = {
 	myEquations: function(req, res) {
 		var limit = typeof req.param('per_page') != 'undefined' ? req.param('per_page') : 50;
 		var page = typeof req.param('page') != 'undefined' ? req.param('page') : 0;
-		
+
 		waterfall([
 			function (callback) {
 				Equation.count({submittedBy: req.user.id}).exec(function(err, numEquations) {
@@ -198,7 +187,7 @@ module.exports = {
 	setUser: function(req, res) {
 		Equation.update({id: req.param("id")}, {submittedBy: req.user.id}).exec(function(err, equations) {
 			if (err) return res.serverError("Error updating user.");
-	    	return res.json(equations[0]);	
+	    	return res.json(equations[0]);
 		});
 	}
 };

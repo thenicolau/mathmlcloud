@@ -16,34 +16,27 @@ module.exports = {
         return equation;
     },
 
-    convertEquation: function(options, equation, host, done) {
+    convertEquation: function(options, host, done) {
         ConversionService.convert(options, function(data) {
             if (typeof(data.errors) == 'undefined') {
                 //clean up any old components.
-                Component.destroy({equation:equation.id}).exec(function(err, components) {
-                    if (err) return done(err);
+
                     //Save all components.
-                    if ((options.mml === "true" || options.mml=== true) && data.mml) {
-                        EquationService.createComponent("mml", data.mml, equation.id);
+
+                    if (options.png === "true" || options.png === true) {
+                      var pngSource =
+                        '<img src="' +
+                        data.png +
+                        '" alt="' +
+                        data.speakText +
+                        '" />';
+
                     }
-                    if (options.svg === "true" || options.svg === true) EquationService.createComponent("svg", data.svg, equation.id);
-                    if (options.png === "true" || options.png === true ) {
-                        var pngSource = "<img src=\"" + data.png + "\" alt=\"" + data.speakText + "\" />";
-                        EquationService.createComponent("png", pngSource, equation.id);
-                    }
-                    if (options.html) {
-                        EquationService.createComponent("html", data.html, equation.id);
-                    }
-                    if (options.css) {
-                        EquationService.createComponent("css", data.css, equation.id);
-                    }
-                    if (options.speakText) EquationService.createComponent("description", data.speakText, equation.id);
                     //Look up equation so that we have all created info.
-                    Equation.findOne(equation.id).populate('components').exec(function(err, newEquation) {
-                        newEquation.cloudUrl = host + "/equation/" + equation.id;
-                        return done(null, newEquation);
-                    });
-                });
+
+                        return done(null, data);
+
+
 
             } else {
                 console.log(data.errors);
