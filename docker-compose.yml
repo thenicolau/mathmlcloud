@@ -4,6 +4,6 @@ services:
     build: .
     container_name: mathml
     ports:
-      - "4000:4000"
+      - "4000:1337"
     volumes:
       - .:/app
