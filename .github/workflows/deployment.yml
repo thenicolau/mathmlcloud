@@ -57,7 +57,7 @@ jobs:
     - name: Build and push Docker image for production
       run: |
         docker compose -f docker-compose.yml build
-        docker tag mathml:latest deploynicolau/mathml:staging
+        docker tag mathml-app:latest deploynicolau/mathml:staging
         docker push deploynicolau/mathml:staging
     - name: Deploy to production
       if: github.ref == 'refs/heads/master'
